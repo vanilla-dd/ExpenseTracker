@@ -40,6 +40,7 @@
 	"dependencies": {
 		"@auth/prisma-adapter": "^1.5.0",
 		"@auth/sveltekit": "^0.14.0",
+		"@fontsource/poppins": "^5.0.12",
 		"@internationalized/date": "^3.5.2",
 		"@prisma/client": "^5.11.0",
 		"bits-ui": "^0.19.7",
