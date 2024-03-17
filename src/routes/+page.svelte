@@ -1,7 +1,7 @@
 <script>
 	import { SignIn, SignOut } from '@auth/sveltekit/components';
 	import { page } from '$app/stores';
-	import { signIn, signOut } from '@auth/sveltekit/client';
+	import { signIn } from '@auth/sveltekit/client';
 </script>
 
 <h1>SvelteKit Auth Example</h1>
@@ -12,16 +12,19 @@
 		{/if}
 		<span class="signedInText">
 			<small>Signed in as</small><br />
-			<strong>{$page.data.session.user?.name ?? 'User'}</strong>
+			<strong>{$page.data.session.user?.id ?? 'User'}</strong>
 		</span>
-		<SignOut>
-			<div slot="submitButton" class="buttonPrimary">Sign out</div>
-		</SignOut>
+		<SignOut>helo</SignOut>
 	{:else}
 		<span class="notSignedInText">You are not signed in</span>
-		<SignIn>
+		<SignIn provider="github">
 			<div slot="submitButton" class="buttonPrimary">Sign in</div>
 		</SignIn>
 		<SignIn provider="github" />
 	{/if}
+	<button
+		on:click={() => {
+			signIn();
+		}}>heloo</button
+	>
 </div>
