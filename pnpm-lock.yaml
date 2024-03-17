@@ -11,6 +11,9 @@ dependencies:
   '@auth/sveltekit':
     specifier: ^0.14.0
     version: 0.14.0(@sveltejs/kit@2.5.4)(svelte@4.2.12)
+  '@internationalized/date':
+    specifier: ^3.5.2
+    version: 3.5.2
   '@prisma/client':
     specifier: ^5.11.0
     version: 5.11.0(prisma@5.11.0)

@@ -1,7 +1,6 @@
-<script>
+<script lang="ts">
 	import { SignIn, SignOut } from '@auth/sveltekit/components';
 	import { page } from '$app/stores';
-	import { signIn } from '@auth/sveltekit/client';
 </script>
 
 <h1>SvelteKit Auth Example</h1>
@@ -22,9 +21,4 @@
 		</SignIn>
 		<SignIn provider="github" />
 	{/if}
-	<button
-		on:click={() => {
-			signIn();
-		}}>heloo</button
-	>
 </div>
