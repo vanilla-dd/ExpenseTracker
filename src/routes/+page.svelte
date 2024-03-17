@@ -1,24 +1,4 @@
-<script lang="ts">
-	import { SignIn, SignOut } from '@auth/sveltekit/components';
-	import { page } from '$app/stores';
-</script>
-
-<h1>SvelteKit Auth Example</h1>
-<div>
-	{#if $page.data.session}
-		{#if $page.data.session.user?.image}
-			<img src={$page.data.session.user.image} class="avatar" alt="User Avatar" />
-		{/if}
-		<span class="signedInText">
-			<small>Signed in as</small><br />
-			<strong>{$page.data.session.user?.id ?? 'User'}</strong>
-		</span>
-		<SignOut>helo</SignOut>
-	{:else}
-		<span class="notSignedInText">You are not signed in</span>
-		<SignIn provider="github">
-			<div slot="submitButton" class="buttonPrimary">Sign in</div>
-		</SignIn>
-		<SignIn provider="github" />
-	{/if}
+<div class="grid place-items-center gap-4">
+	<h1 class="text-7xl font-extrabold tracking-wider">Expensify</h1>
+	<p class="font-medium tracking-wider">All your expenses at one place</p>
 </div>
