@@ -8,7 +8,7 @@
 ></div>
 <div class="flex h-full flex-col items-center justify-center gap-4">
 	<h1
-		class="text-8xl font-extrabold tracking-wider text-blue-300 transition-colors duration-500 hover:text-blue-400"
+		class="text-8xl font-extrabold tracking-wider text-purple-800 transition-colors duration-500 hover:text-violet-800 dark:text-blue-300 hover:dark:text-blue-400"
 	>
 		Expensify
 	</h1>
