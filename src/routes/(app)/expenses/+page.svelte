@@ -1,14 +1,12 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { mediaQuery } from 'svelte-legos';
-	import CreateTag from '$lib/forms/CreateTag.svelte';
 	import CreateExpense from '$lib/forms/CreateExpense.svelte';
+	import { page } from '$app/stores';
+	import { HandCoins } from 'lucide-svelte';
 	export let data;
-
 	let open = false;
 	const isDesktop = mediaQuery('(min-width: 768px)');
 </script>
@@ -16,51 +14,43 @@
 {#if $isDesktop}
 	<Dialog.Root bind:open>
 		<Dialog.Trigger asChild let:builder>
-			<Button variant="outline" builders={[builder]}>Edit Profile</Button>
+			<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
+				>Add Expense <HandCoins class="h-5 w-5" /></Button
+			>
 		</Dialog.Trigger>
 		<Dialog.Content class="sm:max-w-[425px]">
 			<Dialog.Header>
-				<Dialog.Title>Edit profile</Dialog.Title>
-				<Dialog.Description>
-					Make changes to your profile here. Click save when you're done.
-				</Dialog.Description>
+				<Dialog.Title>Add Expense</Dialog.Title>
+				<Dialog.Description
+					>{new Intl.DateTimeFormat('en-US', {
+						day: 'numeric',
+						month: 'long',
+						weekday: 'long'
+					}).format()}</Dialog.Description
+				>
 			</Dialog.Header>
-			<form class="grid items-start gap-4">
-				<div class="grid gap-2">
-					<Label for="email">Email</Label>
-					<Input type="email" id="email" value="shadcn@example.com" />
-				</div>
-				<div class="grid gap-2">
-					<Label for="username">Username</Label>
-					<Input id="username" value="@shadcn" />
-				</div>
-				<Button type="submit">Save changes</Button>
-			</form>
+			<CreateExpense data={data.createExpense} userTags={data.userTags} />
 		</Dialog.Content>
 	</Dialog.Root>
 {:else}
 	<Drawer.Root bind:open>
 		<Drawer.Trigger asChild let:builder>
-			<Button variant="outline" builders={[builder]}>Edit Profile</Button>
+			<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
+				>Add Expense <HandCoins class="h-5 w-5" /></Button
+			>
 		</Drawer.Trigger>
 		<Drawer.Content>
 			<Drawer.Header class="text-left">
-				<Drawer.Title>Edit profile</Drawer.Title>
-				<Drawer.Description>
-					Make changes to your profile here. Click save when you're done.
-				</Drawer.Description>
+				<Drawer.Title>Add Expense</Drawer.Title>
+				<Drawer.Description
+					>{new Intl.DateTimeFormat('en-US', {
+						day: 'numeric',
+						month: 'long',
+						weekday: 'long'
+					}).format()}</Drawer.Description
+				>
 			</Drawer.Header>
-			<form class="grid items-start gap-4 px-4">
-				<div class="grid gap-2">
-					<Label for="email">Email</Label>
-					<Input type="email" id="email" value="shadcn@example.com" />
-				</div>
-				<div class="grid gap-2">
-					<Label for="username">Username</Label>
-					<Input id="username" value="@shadcn" />
-				</div>
-				<Button type="submit">Save changes</Button>
-			</form>
+			<CreateExpense data={data.createExpense} userTags={data.userTags} />
 			<Drawer.Footer class="pt-2">
 				<Drawer.Close asChild let:builder>
 					<Button variant="outline" builders={[builder]}>Cancel</Button>
@@ -69,5 +59,5 @@
 		</Drawer.Content>
 	</Drawer.Root>
 {/if}
-<CreateExpense data={data.createExpense} />
-<CreateTag data={data.createTag} />
+
+{JSON.stringify($page.data.userExpenses)}
