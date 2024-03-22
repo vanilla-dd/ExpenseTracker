@@ -16,9 +16,8 @@
 	export let data: SuperValidated<Infer<ExpenseCreateSchema>>;
 	export let userTags: { id: string; name: string; emoji: string }[];
 	export let createTag: SuperValidated<Infer<TagCreateSchema>>;
-	export let closeOnOutsideClick: boolean;
 
-	$: tags = [...predefinedTags, ...userTags];
+	let open = false;
 	const form = superForm(data, {
 		validators: zodClient(expenseCreateSchema),
 		dataType: 'json'
@@ -27,6 +26,8 @@
 	const setEmoji = (emoji: string) => {
 		$formData.tag.emoji = emoji;
 	};
+
+	$: tags = [...predefinedTags, ...userTags];
 </script>
 
 <form method="POST" action="?/createexpense" use:enhance class="flex flex-col gap-2">
@@ -56,9 +57,9 @@
 						<div class="flex aspect-square w-fit items-center justify-center gap-2">
 							<RadioGroup.Item
 								{...attrs}
-								bind:value={tag.name}
+								value={tag.name}
 								id={tag.id}
-								hidden
+								class="absolute -z-10 opacity-0"
 								name="tag.name"
 							/>
 							<Label
@@ -85,16 +86,9 @@
 					</Form.Control>
 				{/each}
 
-				<Dialog.Root
-					onOpenChange={(e) => {
-						e === true ? (closeOnOutsideClick = false) : (closeOnOutsideClick = true);
-					}}
-				>
+				<Dialog.Root bind:open>
 					<Dialog.Trigger>
 						<Button
-							on:click={() => {
-								closeOnOutsideClick = false;
-							}}
 							class="h-full border bg-transparent px-5 text-black hover:text-white dark:text-white hover:dark:text-black"
 							><Plus class="h-5 w-5" /></Button
 						>
@@ -104,7 +98,7 @@
 							<Dialog.Title>Add a tag</Dialog.Title>
 							<Dialog.Description>This action cannot be undone.</Dialog.Description>
 						</Dialog.Header>
-						<CreateTag data={createTag} />
+						<CreateTag data={createTag} bind:createTagOpenState={open} />
 					</Dialog.Content>
 				</Dialog.Root>
 			</div>

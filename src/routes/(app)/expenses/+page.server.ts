@@ -26,9 +26,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 	} catch (error) {
 		console.log(error);
 	}
-	const userTags = await db.personalizedTags.findMany({
-		where: { userId: user?.user?.id }
-	});
+	const userTags =
+	(await db.personalizedTags.findMany({
+	where: { userId: user?.user?.id }
+	})) ?? [];
 
 	return {
 		userTags,

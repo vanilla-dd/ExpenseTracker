@@ -10,7 +10,6 @@
 	export let data;
 
 	let open = false;
-	let closeOnOutsideClick = true;
 	const currDate = new Intl.DateTimeFormat('en-US', {
 		day: 'numeric',
 		month: 'long',
@@ -20,7 +19,7 @@
 </script>
 
 {#if $isDesktop}
-	<Dialog.Root bind:open bind:closeOnOutsideClick>
+	<Dialog.Root bind:open>
 		<Dialog.Trigger asChild let:builder>
 			<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
 				>Add Expense <HandCoins class="h-5 w-5" /></Button
@@ -33,14 +32,13 @@
 			</Dialog.Header>
 			<CreateExpense
 				data={data.createExpense}
-				userTags={data.userTags}
 				createTag={data.createTag}
-				bind:closeOnOutsideClick
+				userTags={data.userTags}
 			/>
 		</Dialog.Content>
 	</Dialog.Root>
 {:else}
-	<Drawer.Root bind:open bind:closeOnOutsideClick>
+	<Drawer.Root bind:open>
 		<Drawer.Trigger asChild let:builder>
 			<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
 				>Add Expense <HandCoins class="h-5 w-5" /></Button
@@ -53,9 +51,8 @@
 			</Drawer.Header>
 			<CreateExpense
 				data={data.createExpense}
-				userTags={data.userTags}
 				createTag={data.createTag}
-				bind:closeOnOutsideClick
+				userTags={data.userTags}
 			/>
 			<Drawer.Footer class="pt-2">
 				<Drawer.Close asChild let:builder>
