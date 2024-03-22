@@ -2,6 +2,8 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input';
 	import { type TagCreateSchema, tagCreateSchema } from '$lib/schema';
+	import { LoaderCircle } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 
@@ -11,11 +13,17 @@
 	const form = superForm(data, {
 		validators: zodClient(tagCreateSchema),
 		onResult({ result }) {
+			if (result.type === 'error' || result.type === 'failure') {
+				toast.error('Something went worng');
+			}
 			// @ts-ignore // don't know why they don't have data typed
 			if ((result.type = 'success' && result?.data?.createTag?.valid)) {
 				createTagOpenState = false;
+				toast.success('Tag created successfully');
+				return;
 			}
-		}
+		},
+		multipleSubmits: 'prevent'
 	});
 	const { form: formData, enhance, delayed } = form;
 </script>
@@ -24,16 +32,21 @@
 	<Form.Field {form} name="name">
 		<Form.Control let:attrs>
 			<Form.Label>Tag Name</Form.Label>
-			<Input {...attrs} bind:value={$formData.name} />
+			<Input {...attrs} bind:value={$formData.name} disabled={$delayed} />
 		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Field {form} name="emoji">
 		<Form.Control let:attrs>
 			<Form.Label>Emoji</Form.Label>
-			<Input {...attrs} bind:value={$formData.emoji} />
+			<Input {...attrs} bind:value={$formData.emoji} disabled={$delayed} />
 		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
-	<Form.Button>Create Tag</Form.Button>
+	<Form.Button disabled={$delayed} class="flex gap-1">
+		Create Tag
+		{#if $delayed}
+			<LoaderCircle class="h-4 w-4 animate-spin" />
+		{/if}
+	</Form.Button>
 </form>

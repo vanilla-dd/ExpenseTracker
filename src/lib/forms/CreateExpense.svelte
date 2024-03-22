@@ -12,6 +12,7 @@
 	import { predefinedTags } from '$lib/tags';
 	import CreateTag from './CreateTag.svelte';
 	import { cn } from '$lib/utils.js';
+	import { toast } from 'svelte-sonner';
 
 	export let data: SuperValidated<Infer<ExpenseCreateSchema>>;
 	export let userTags: { id: string; name: string; emoji: string }[];
@@ -20,10 +21,22 @@
 	let open = false;
 	const form = superForm(data, {
 		validators: zodClient(expenseCreateSchema),
-		dataType: 'json'
+		dataType: 'json',
+		multipleSubmits: 'prevent',
+		onResult({ result }) {
+			if (result.type === 'error' || result.type === 'failure') {
+				toast.error('Something went worng');
+				return;
+			}
+			if (result.type === 'success') {
+				toast.success('Expense Added');
+				return;
+			}
+		}
 	});
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, delayed } = form;
 	const setEmoji = (emoji: string) => {
+		if ($delayed) return;
 		$formData.tag.emoji = emoji;
 	};
 
@@ -40,6 +53,7 @@
 				{...attrs}
 				bind:value={$formData.price}
 				type="number"
+				disabled={$delayed}
 				inputmode="numeric"
 				pattern="[0-9]+"
 				placeholder="10$"
@@ -61,6 +75,7 @@
 								id={tag.id}
 								class="absolute -z-10 opacity-0"
 								name="tag.name"
+								disabled={$delayed}
 							/>
 							<Label
 								for={tag.id}
@@ -90,7 +105,7 @@
 					<Dialog.Trigger>
 						<Button
 							class="h-full border bg-transparent px-5 text-black hover:text-white dark:text-white hover:dark:text-black"
-							><Plus class="h-5 w-5" /></Button
+							disabled={$delayed}><Plus class="h-5 w-5" /></Button
 						>
 					</Dialog.Trigger>
 					<Dialog.Content>
@@ -105,5 +120,5 @@
 		</RadioGroup.Root>
 		<Form.FieldErrors />
 	</Form.Fieldset>
-	<Button type="submit">Create Expense</Button>
+	<Button type="submit" disabled={$delayed}>Create Expense</Button>
 </form>
