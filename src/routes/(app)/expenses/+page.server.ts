@@ -1,9 +1,9 @@
-import { setError, superValidate } from 'sveltekit-superforms';
-import type { PageServerLoad } from './$types';
-import { zod } from 'sveltekit-superforms/adapters';
 import { tagCreateSchema, expenseCreateSchema } from '$lib/schema';
+import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, type Actions } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
+import { zod } from 'sveltekit-superforms/adapters';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await locals.auth();
@@ -26,10 +26,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 	} catch (error) {
 		console.log(error);
 	}
-	const userTags =
-	(await db.personalizedTags.findMany({
-	where: { userId: user?.user?.id }
-	})) ?? [];
+	const userTags = await db.personalizedTags.findMany({
+		where: { userId: user?.user?.id }
+	});
 
 	return {
 		userTags,
@@ -41,8 +40,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	createtag: async (event) => {
 		const user = await event.locals.auth();
-		if (!user?.user) return;
 		const createTag = await superValidate(event, zod(tagCreateSchema));
+		if (!user?.user) return;
 		if (!createTag.valid) {
 			return fail(400, {
 				createTag

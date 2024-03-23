@@ -23,13 +23,13 @@
 		validators: zodClient(expenseCreateSchema),
 		dataType: 'json',
 		multipleSubmits: 'prevent',
-		onResult({ result }) {
-			if (result.type === 'error' || result.type === 'failure') {
+		onUpdated({ form }) {
+			if (!form.posted) {
 				toast.error('Something went worng');
 				return;
 			}
-			if (result.type === 'success') {
-				toast.success('Expense Added');
+			if (form.valid) {
+				toast.success('Expense added');
 				return;
 			}
 		}

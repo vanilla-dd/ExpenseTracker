@@ -38,7 +38,8 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -64,19 +65,21 @@ model VerificationToken {
 model Expenses {
   id       String @id @default(cuid())
   price    Int
-  User     User   @relation(fields: [userId], references: [id])
   userId   String
   tagName  String
   tagEmoji String
+
+  User User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model PersonalizedTags {
-  id     String  @id @default(cuid())
-  name   String  @unique
-  emoji  String  @unique
+  id    String @id @default(cuid())
+  name  String @unique
+  emoji String @unique
+
   User   User?   @relation(fields: [userId], references: [id])
   userId String?
 }

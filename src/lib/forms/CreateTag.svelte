@@ -12,12 +12,12 @@
 
 	const form = superForm(data, {
 		validators: zodClient(tagCreateSchema),
-		onResult({ result }) {
-			if (result.type === 'error' || result.type === 'failure') {
+		onUpdated({ form }) {
+			if (!form.posted) {
 				toast.error('Something went worng');
+				return;
 			}
-			// @ts-ignore // don't know why they don't have data typed
-			if ((result.type = 'success' && result?.data?.createTag?.valid)) {
+			if (form.valid) {
 				createTagOpenState = false;
 				toast.success('Tag created successfully');
 				return;

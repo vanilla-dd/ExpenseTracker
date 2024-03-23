@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Moon, Sun } from 'lucide-svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { page } from '$app/stores';
 	import { SignIn, SignOut } from '@auth/sveltekit/components';
+	import { Button } from '$lib/components/ui/button';
+	import { Moon, Sun } from 'lucide-svelte';
+	import { page } from '$app/stores';
 	import { toggleMode } from 'mode-watcher';
 </script>
 
