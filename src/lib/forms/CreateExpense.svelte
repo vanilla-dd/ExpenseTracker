@@ -15,7 +15,7 @@
 	import { toast } from 'svelte-sonner';
 
 	export let data: SuperValidated<Infer<ExpenseCreateSchema>>;
-	export let userTags: { id: string; name: string; emoji: string }[];
+	export let userTags: { id: string; name: string; emoji: string }[] | undefined;
 	export let createTag: SuperValidated<Infer<TagCreateSchema>>;
 
 	let open = false;
@@ -40,7 +40,7 @@
 		$formData.tag.emoji = emoji;
 	};
 
-	$: tags = [...predefinedTags, ...userTags];
+	$: tags = [...predefinedTags, ...(userTags ?? [])];
 </script>
 
 <form method="POST" action="?/createexpense" use:enhance class="flex flex-col gap-2">

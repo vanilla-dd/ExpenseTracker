@@ -13,6 +13,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 	let userExpenses;
+	let userTags;
 	try {
 		userExpenses = await db.expenses.findMany({
 			where: {
@@ -26,9 +27,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 	} catch (error) {
 		console.log(error);
 	}
-	const userTags = await db.personalizedTags.findMany({
-		where: { userId: user?.user?.id }
-	});
+	try {
+		userTags = await db.personalizedTags.findMany({
+			where: { userId: user?.user?.id }
+		});
+	} catch (error) {
+		console.log(error);
+	}
 
 	return {
 		userTags,

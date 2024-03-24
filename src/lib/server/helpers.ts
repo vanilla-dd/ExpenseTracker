@@ -2,7 +2,7 @@ import { db } from './db';
 import bcrypt from 'bcrypt';
 
 export const getUserFromDb = async (email: string, password: string) => {
-	const user = await db.user.findUnique({
+	const user = await db.user.findFirst({
 		where: { email: email }
 	});
 
