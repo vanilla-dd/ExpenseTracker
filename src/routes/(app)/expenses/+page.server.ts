@@ -49,6 +49,7 @@ export const actions: Actions = {
 		}
 		try {
 			if (!user.user.id) return;
+			console.log(user.user.id);
 			await db.personalizedTags.create({
 				data: {
 					name: createTag.data.name,

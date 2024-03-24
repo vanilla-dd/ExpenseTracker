@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (!user?.user) {
 		throw redirect(301, '/');
 	}
-	const userProfile = await db.user.findFirst({
+	const userProfile = await db.user.findUnique({
 		where: { id: user.user.id },
 		include: { expenses: true }
 	});
