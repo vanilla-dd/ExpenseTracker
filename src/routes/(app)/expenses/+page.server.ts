@@ -89,7 +89,7 @@ export const actions: Actions = {
 		if (!user.user.id) return;
 		await db.expenses.create({
 			data: {
-				price: +createExpense.data.price,
+				amount: createExpense.data.amount,
 				userId: user.user.id,
 				tagName: createExpense.data.tag.name,
 				tagEmoji: createExpense.data.tag.emoji

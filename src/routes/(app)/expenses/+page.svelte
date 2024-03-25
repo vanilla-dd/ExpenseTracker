@@ -62,5 +62,4 @@
 		</Drawer.Content>
 	</Drawer.Root>
 {/if}
-
 {JSON.stringify($page.data.userExpenses)}

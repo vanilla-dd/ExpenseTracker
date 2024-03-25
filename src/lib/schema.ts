@@ -1,6 +1,6 @@
 import { z } from 'zod';
 export const expenseCreateSchema = z.object({
-	price: z.coerce
+	amount: z.coerce
 		.number({ invalid_type_error: 'Only Numbers are allowed', required_error: "Can't be empty" })
 		.min(1, { message: 'Should be atleast one' }),
 	tag: z

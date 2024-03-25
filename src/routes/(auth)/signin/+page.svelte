@@ -18,6 +18,7 @@
 		</h1>
 
 		<form method="POST" action="/signin" class="signInButton flex w-80 flex-col gap-3">
+			<input type="hidden" name="redirectTo" value="/expenses" />
 			<input type="hidden" name="providerId" value="credentials" />
 			<Input name="email" type="email" bind:value={email} />
 			<Input name="password" type="password" bind:value={password} />
@@ -30,7 +31,7 @@
 			<Separator class="h-1" />
 		</div>
 
-		<SignIn provider="github">
+		<SignIn provider="github" options={{ redirectTo: '/expenses', redirect: true }}>
 			<Button slot="submitButton" class="flex items-center justify-center gap-2"
 				><Github class="h-5 w-5" />Sign in with Github</Button
 			>

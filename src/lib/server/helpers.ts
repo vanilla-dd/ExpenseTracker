@@ -9,7 +9,6 @@ export const getUserFromDb = async (email: string, password: string) => {
 	if (!user) {
 		return null; // User not found
 	}
-
 	// Compare hashed password
 	const isPasswordValid = await bcrypt.compare(password, user.password as string);
 	if (!isPasswordValid) {

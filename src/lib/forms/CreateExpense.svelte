@@ -44,14 +44,14 @@
 </script>
 
 <form method="POST" action="?/createexpense" use:enhance class="flex flex-col gap-2">
-	<Form.Field {form} name="price">
+	<Form.Field {form} name="amount">
 		<Form.Control let:attrs>
 			<Form.Label class="flex items-center gap-2 capitalize tracking-wider"
-				><Receipt /> SPENDED {$formData.price}$ On {$formData.tag.name}</Form.Label
+				><Receipt /> SPENDED {$formData.amount}$ On {$formData.tag.name}</Form.Label
 			>
 			<Input
 				{...attrs}
-				bind:value={$formData.price}
+				bind:value={$formData.amount}
 				type="number"
 				disabled={$delayed}
 				inputmode="numeric"

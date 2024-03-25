@@ -55,6 +55,7 @@ model User {
   sessions        Session[]
   personalizedTag PersonalizedTags[]
   HighestSpending HighestSpending?
+  Budget          Budget?
 }
 
 model VerificationToken {
@@ -67,12 +68,12 @@ model VerificationToken {
 
 model Expenses {
   id       String @id @default(cuid())
-  price    Int
+  amount   Int
   tagName  String
   tagEmoji String
 
-  User   User   @relation(fields: [userId], references: [id])
-  userId String
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,10 +91,17 @@ model PersonalizedTags {
 }
 
 model HighestSpending {
-  id    String   @id @default(cuid())
-  price Int      @default(0)
-  date  DateTime @updatedAt
+  id     String   @id @default(cuid())
+  amount Int      @default(0)
+  date   DateTime @updatedAt
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @unique
+}
+
+model Budget {
+  id     String @id @default(cuid())
+  amount Int    @default(0)
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String @unique
 }

@@ -27,13 +27,11 @@
 						alt="userProfile"
 					/>
 				</a>
-				<SignOut>
+				<SignOut options={{ redirectTo: '/signin' }}>
 					<Button slot="submitButton" class="font-bold">Log Out</Button>
 				</SignOut>
 			{:else}
-				<SignIn provider="github">
-					<Button slot="submitButton" class="font-bold">Login</Button>
-				</SignIn>
+				<Button href="/signin" slot="submitButton" class="font-bold">Login</Button>
 			{/if}
 			<Button on:click={toggleMode} variant="outline" size="icon">
 				<Sun
