@@ -82,7 +82,7 @@
 								class={cn(
 									'flex w-full cursor-pointer flex-col items-center justify-center gap-1  rounded-md px-1 py-2 transition-colors hover:bg-primary/90 hover:text-white dark:text-white hover:dark:text-black',
 									{
-										'bg-green-400 hover:bg-green-400 dark:bg-slate-400 hover:dark:bg-slate-400 ':
+										'bg-green-400 hover:bg-green-400 dark:bg-slate-400 hover:dark:bg-slate-400':
 											tag.name === $formData.tag.name
 									}
 								)}

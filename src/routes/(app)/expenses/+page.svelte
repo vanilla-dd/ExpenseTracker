@@ -4,8 +4,10 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { mediaQuery } from 'svelte-legos';
 	import { page } from '$app/stores';
-	import { HandCoins } from 'lucide-svelte';
+	import { HandCoins, Wallet } from 'lucide-svelte';
 	import CreateExpense from '$lib/forms/CreateExpense.svelte';
+	import CreateBudget from '$lib/forms/CreateBudget.svelte';
+	import { cn } from '$lib/utils.js.js';
 
 	export let data;
 
@@ -62,4 +64,27 @@
 		</Drawer.Content>
 	</Drawer.Root>
 {/if}
-{JSON.stringify($page.data.userExpenses)}
+
+{JSON.stringify($page.data)}
+<Dialog.Root>
+	<Dialog.Trigger asChild let:builder>
+		<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
+			>Edit Budget <Wallet class="h-5 w-5" /></Button
+		>
+	</Dialog.Trigger>
+	<Dialog.Content class="sm:max-w-[425px]">
+		<Dialog.Header>
+			<Dialog.Title>Budget</Dialog.Title>
+			<Dialog.Description>
+				<p
+					class={cn('text-2xl font-bold text-red-500', {
+						'text-green-400': data.userBudget && data.userBudget?.amount >= 10
+					})}
+				>
+					Current: {data.userBudget?.amount ?? 0}$
+				</p>
+			</Dialog.Description>
+		</Dialog.Header>
+		<CreateBudget data={data.createBudget} />
+	</Dialog.Content>
+</Dialog.Root>

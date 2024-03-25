@@ -1,4 +1,4 @@
-import { tagCreateSchema, expenseCreateSchema } from '$lib/schema';
+import { tagCreateSchema, expenseCreateSchema, budgetCreate } from '$lib/schema';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { fail, type Actions } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
@@ -14,6 +14,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 	let userExpenses;
 	let userTags;
+	let userBudget = null;
 	try {
 		userExpenses = await db.expenses.findMany({
 			where: {
@@ -34,12 +35,22 @@ export const load: PageServerLoad = async ({ locals }) => {
 	} catch (error) {
 		console.log(error);
 	}
-
+	try {
+		userBudget = await db.budget.findFirst({
+			where: { userId: user?.user?.id }
+		});
+	} catch (error) {
+		console.log(error);
+	}
 	return {
+		userBudget,
 		userTags,
 		userExpenses,
 		createTag: await superValidate(zod(tagCreateSchema)),
-		createExpense: await superValidate(zod(expenseCreateSchema))
+		createExpense: await superValidate(zod(expenseCreateSchema)),
+		createBudget: await superValidate(zod(budgetCreate), {
+			defaults: { amount: userBudget?.amount ?? 0 }
+		})
 	};
 };
 export const actions: Actions = {
@@ -87,6 +98,33 @@ export const actions: Actions = {
 			});
 		}
 		if (!user.user.id) return;
+		const highestSpent = await db.highestSpending.findFirst({
+			where: { userId: user.user.id }
+		});
+		// If no record found, create one
+		if (!highestSpent) {
+			await db.highestSpending.create({
+				data: {
+					userId: user.user.id,
+					amount: createExpense.data.amount,
+					tagName: createExpense.data.tag.name,
+					tagEmoji: createExpense.data.tag.emoji
+				}
+			});
+		} else {
+			// If a record exists, compare with the current expense
+			if (highestSpent.amount < createExpense.data.amount) {
+				// Update if the current expense is higher
+				await db.highestSpending.update({
+					where: { userId: user.user.id },
+					data: {
+						amount: createExpense.data.amount,
+						tagName: createExpense.data.tag.name,
+						tagEmoji: createExpense.data.tag.emoji
+					}
+				});
+			}
+		}
 		await db.expenses.create({
 			data: {
 				amount: createExpense.data.amount,
@@ -98,5 +136,22 @@ export const actions: Actions = {
 		return {
 			createExpense
 		};
+	},
+	createBudget: async (event) => {
+		const user = await event.locals.auth();
+		if (!user?.user) return;
+		const createBudget = await superValidate(event, zod(budgetCreate));
+		if (!createBudget.valid) {
+			return fail(400, {
+				createBudget
+			});
+		}
+		await db.budget.upsert({
+			where: { userId: user.user.id },
+			create: { amount: createBudget.data.amount, userId: user.user.id },
+			update: {
+				amount: createBudget.data.amount
+			}
+		});
 	}
 };

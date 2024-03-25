@@ -91,9 +91,11 @@ model PersonalizedTags {
 }
 
 model HighestSpending {
-  id     String   @id @default(cuid())
-  amount Int      @default(0)
-  date   DateTime @updatedAt
+  id       String   @id @default(cuid())
+  amount   Int      @default(0)
+  date     DateTime @updatedAt
+  tagName  String
+  tagEmoji String
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @unique
@@ -102,6 +104,7 @@ model HighestSpending {
 model Budget {
   id     String @id @default(cuid())
   amount Int    @default(0)
+
   user   User?  @relation(fields: [userId], references: [id])
   userId String @unique
 }

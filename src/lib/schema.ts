@@ -19,5 +19,10 @@ export const tagCreateSchema = z.object({
 	emoji: z.string().emoji()
 });
 
+export const budgetCreate = z.object({
+	amount: z.coerce.number().min(1)
+});
+
+export type BudgetCreate = typeof budgetCreate;
 export type ExpenseCreateSchema = typeof expenseCreateSchema;
 export type TagCreateSchema = typeof tagCreateSchema;

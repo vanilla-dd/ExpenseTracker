@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@auth/prisma-adapter':
-    specifier: ^1.5.0
-    version: 1.5.0(@prisma/client@5.11.0)
+    specifier: ^1.5.1
+    version: 1.5.1(@prisma/client@5.11.0)
   '@auth/sveltekit':
-    specifier: ^0.14.0
-    version: 0.14.0(@sveltejs/kit@2.5.4)(svelte@4.2.12)
+    specifier: ^0.14.1
+    version: 0.14.1(@sveltejs/kit@2.5.4)(svelte@4.2.12)
   '@fontsource/poppins':
     specifier: ^5.0.12
     version: 5.0.12
@@ -152,8 +152,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  /@auth/core@0.28.0:
-    resolution: {integrity: sha512-/fh/tb/L4NMSYcyPoo4Imn8vN6MskcVfgESF8/ndgtI4fhD/7u7i5fTVzWgNRZ4ebIEGHNDbWFRxaTu1NtQgvA==}
+  /@auth/core@0.28.1:
+    resolution: {integrity: sha512-gvp74mypYZADpTlfGRp6HE0G3pIHWvtJpy+KZ+8FvY0cmlIpHog+jdMOdd29dQtLtN25kF2YbfHsesCFuGUQbg==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -175,12 +175,12 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/prisma-adapter@1.5.0(@prisma/client@5.11.0):
-    resolution: {integrity: sha512-TNDY7z5VhC3E5xetb4qhTmSmjvyEurafaTM6dlYlhTGj+7K3xTki7fJ0oJwgkFsQ2fT1weJJJSBmjtH8Nqsnuw==}
+  /@auth/prisma-adapter@1.5.1(@prisma/client@5.11.0):
+    resolution: {integrity: sha512-qie27TFTc2XDb9YPwNCSA/sCHaykMr4IHhAzQpTry0XTNftsFLWkni1zc+4OzkAJ7c82QU9LbGRISGLc+DiN5Q==}
     peerDependencies:
       '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5'
     dependencies:
-      '@auth/core': 0.28.0
+      '@auth/core': 0.28.1
       '@prisma/client': 5.11.0(prisma@5.11.0)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -188,13 +188,13 @@ packages:
       - nodemailer
     dev: false
 
-  /@auth/sveltekit@0.14.0(@sveltejs/kit@2.5.4)(svelte@4.2.12):
-    resolution: {integrity: sha512-I4ec4hcL4BTHgebJ1KvjX/8VclLuJAkcJdPwH0BOGt20qlu+wipI7EQjJy6EG2s4p0cAEWaIGGKFhMZIUfb+1Q==}
+  /@auth/sveltekit@0.14.1(@sveltejs/kit@2.5.4)(svelte@4.2.12):
+    resolution: {integrity: sha512-NBmMO4L4pwNv2QMADCAwjtrFgd8WRaVjuPyDF2aR5QlXiXLihHGy9MIs6YeNV6dXa90AIsJMpguEOdsaWhsaGA==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0 || ^2.0.0
       svelte: ^3.54.0 || ^4.0.0 || ^5
     dependencies:
-      '@auth/core': 0.28.0
+      '@auth/core': 0.28.1
       '@sveltejs/kit': 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@4.2.12)(vite@5.2.6)
       set-cookie-parser: 2.6.0
       svelte: 4.2.12
@@ -785,8 +785,8 @@ packages:
     dev: false
     optional: true
 
-  /@sinclair/typebox@0.32.19:
-    resolution: {integrity: sha512-AUphm4Py6t+q5b6TU8OA9YRgeGfogsWy2oZvYLRCxt6d+mPkT0Mc4j+BusQYMGJH47DJe3/fKkLtmWPrKP1nzQ==}
+  /@sinclair/typebox@0.32.20:
+    resolution: {integrity: sha512-ziK497ILSIYMxD/thl496idIb03IZPlha04itLQu1xAFQbumWZ+Dj4PMMCkDRpAYhvVSdmRlTjGu2B2MA5RplQ==}
     requiresBuild: true
     dev: false
     optional: true
@@ -3024,7 +3024,7 @@ packages:
       ts-deepmerge: 7.0.0
     optionalDependencies:
       '@gcornut/valibot-json-schema': 0.0.26(@types/json-schema@7.0.15)(esbuild-runner@2.2.2)(esbuild@0.20.2)(valibot@0.30.0)
-      '@sinclair/typebox': 0.32.19
+      '@sinclair/typebox': 0.32.20
       '@sodaru/yup-to-json-schema': 2.0.1
       '@vinejs/vine': 1.8.0
       arktype: 1.0.29-alpha
