@@ -32,12 +32,16 @@
 	<div
 		class="group/bento row-span-1 flex flex-col justify-between space-y-4 rounded-xl border bg-white p-4 shadow-input transition duration-200 hover:shadow-xl dark:border-white/[0.2] dark:bg-black dark:shadow-none"
 	>
-		<div class="grid h-full text-7xl">
-			<p class="flex self-end">
-				{data.userProfile?.Budget?.amount ?? 0} <span class="self-start text-xl"> $ </span>
+		<div class="grid h-full grid-cols-2 grid-rows-3 text-7xl">
+			<p class="flex self-end justify-self-center">
+				{data.userProfile.Budget?.amount ?? 0} <span class="self-start text-xl"> $ </span>
 			</p>
-			<p class="place-self-center self-end text-xl font-bold tracking-wider text-red-600">vs</p>
-			<p class="flex place-self-end self-start">
+			<p
+				class="col-span-2 row-start-2 self-center text-center text-xl font-bold tracking-wider text-red-600"
+			>
+				vs
+			</p>
+			<p class="col-start-2 row-start-3 flex justify-self-center">
 				{data.userProfile.spendedToday.reduce((acc, curr) => acc + curr.amount, 0)}
 				<span class="self-start text-xl"> $ </span>
 			</p>

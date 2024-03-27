@@ -3,8 +3,8 @@
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { mediaQuery } from 'svelte-legos';
-	import { page } from '$app/stores';
-	import { HandCoins, Wallet } from 'lucide-svelte';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import { HandCoins, Wallet, DollarSign, Users, CreditCard, Activity } from 'lucide-svelte';
 	import CreateExpense from '$lib/forms/CreateExpense.svelte';
 	import CreateBudget from '$lib/forms/CreateBudget.svelte';
 	import { cn } from '$lib/utils.js.js';
@@ -65,7 +65,6 @@
 	</Drawer.Root>
 {/if}
 
-{JSON.stringify($page.data)}
 <Dialog.Root>
 	<Dialog.Trigger asChild let:builder>
 		<Button variant="outline" builders={[builder]} class="flex items-center justify-center gap-2"
@@ -88,3 +87,51 @@
 		<CreateBudget data={data.createBudget} />
 	</Dialog.Content>
 </Dialog.Root>
+<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+	<Card.Root class="transition-shadow hover:shadow-lg hover:dark:shadow-white/15">
+		<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+			<Card.Title class="text-xl font-semibold tracking-wider text-green-500"
+				>Monthly Budget</Card.Title
+			>
+			<DollarSign class="h-4 w-4 text-muted-foreground" />
+		</Card.Header>
+		<Card.Content>
+			<div class="text-xl font-bold">$ {data.userBudget?.amount ?? 0}</div>
+			<p class="text-xs text-muted-foreground">
+				{data.userBudget?.amount === 0 ? 'You can always edit your budget' : 'Please add a budget'}
+			</p>
+		</Card.Content>
+	</Card.Root>
+	<Card.Root class="transition-shadow hover:shadow-lg hover:dark:shadow-white/15">
+		<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+			<Card.Title class="text-xl font-semibold tracking-wider text-red-500"
+				>Monthly Expense</Card.Title
+			>
+			<Users class="h-4 w-4 text-muted-foreground" />
+		</Card.Header>
+		<Card.Content>
+			<div class="text-2xl font-bold">+2350</div>
+			<p class="text-xs text-muted-foreground">+180.1% from last month</p>
+		</Card.Content>
+	</Card.Root>
+	<Card.Root class="transition-shadow hover:shadow-lg hover:dark:shadow-white/15">
+		<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+			<Card.Title class="text-xl font-semibold">Today Spending</Card.Title>
+			<CreditCard class="h-4 w-4 text-muted-foreground" />
+		</Card.Header>
+		<Card.Content>
+			<div class="text-2xl font-bold">+12,234</div>
+			<p class="text-xs text-muted-foreground">+19% from last month</p>
+		</Card.Content>
+	</Card.Root>
+	<Card.Root class="transition-shadow hover:shadow-lg hover:dark:shadow-white/15">
+		<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+			<Card.Title class="text-xl font-semibold">Remaining Budget</Card.Title>
+			<Activity class="h-4 w-4 text-muted-foreground" />
+		</Card.Header>
+		<Card.Content>
+			<div class="text-2xl font-bold">+573</div>
+			<p class="text-xs text-muted-foreground">+201 since last hour</p>
+		</Card.Content>
+	</Card.Root>
+</div>
