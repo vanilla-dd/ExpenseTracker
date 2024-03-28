@@ -1,4 +1,5 @@
 <script lang="ts">
+	import dayjs from 'dayjs';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -17,39 +18,28 @@
 	import CreateExpense from '$lib/forms/CreateExpense.svelte';
 	import CreateBudget from '$lib/forms/CreateBudget.svelte';
 	import { cn } from '$lib/utils.js.js';
-	import { getTodayData, getTodayYesterday } from '$lib/helper.js';
+	import { generateExpenseArray, getCurrDate, getTodayData } from '$lib/helper.js';
+	import Chart from '$lib/chart/Chart.svelte';
 
 	export let data;
 
 	let open = false;
-	const currDate = new Intl.DateTimeFormat('en-US', {
-		day: 'numeric',
-		month: 'long',
-		weekday: 'long'
-	}).format();
+	const currMonthDays = dayjs().daysInMonth();
+	const currDate = getCurrDate();
 	const isDesktop = mediaQuery('(min-width: 768px)');
-
-	const dates = getTodayYesterday();
-	$: todayData = getTodayData(
-		data.userExpenses ?? [],
-		dates.todayStart,
-		dates.todayEnd,
-		dates.yesterdayStart,
-		dates.yesterdayEnd
-	);
-	$: percentage = todayData?.percentage;
-	$: todayExpense = todayData?.todayTotal;
+	$: arr = generateExpenseArray(currMonthDays, data.userExpenses ?? []);
+	$: ({ percentage, todayTotal } = getTodayData(data.userExpenses ?? []));
 </script>
 
 <div class="grid gap-4 px-4 pt-4 md:grid-cols-2 lg:grid-cols-4">
-	<div class="flex justify-around gap-3 md:flex-col lg:flex-row">
+	<div class="flex justify-around gap-3 md:flex-col">
 		{#if $isDesktop}
 			<Dialog.Root bind:open>
 				<Dialog.Trigger asChild let:builder>
 					<Button
 						variant="outline"
 						builders={[builder]}
-						class="flex w-full items-center justify-center gap-2"
+						class="flex flex-1 items-center justify-center gap-2"
 						>Add Expense <HandCoins class="h-5 w-5" /></Button
 					>
 				</Dialog.Trigger>
@@ -71,7 +61,7 @@
 					<Button
 						variant="outline"
 						builders={[builder]}
-						class="flex w-full items-center justify-center gap-2"
+						class="flex flex-1 items-center justify-center gap-2"
 						>Add Expense <HandCoins class="h-5 w-5" /></Button
 					>
 				</Drawer.Trigger>
@@ -99,7 +89,7 @@
 				<Button
 					variant="outline"
 					builders={[builder]}
-					class="flex w-full items-center justify-center gap-2"
+					class="flex flex-1 items-center justify-center gap-2"
 					>Edit Budget <Wallet class="h-5 w-5" /></Button
 				>
 			</Dialog.Trigger>
@@ -158,7 +148,7 @@
 		</Card.Header>
 		<Card.Content>
 			<div class="text-2xl font-bold">
-				$ {todayExpense}
+				$ {todayTotal}
 			</div>
 			<p class="flex items-center gap-2 text-xs text-muted-foreground">
 				{#if percentage > 0}
@@ -172,3 +162,6 @@
 		</Card.Content>
 	</Card.Root>
 </div>
+{#key arr}
+	<Chart {arr} />
+{/key}

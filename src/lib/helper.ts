@@ -1,3 +1,7 @@
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+dayjs.extend(isBetween);
+
 export const predefinedTags = [
 	{ id: '1', name: 'education', emoji: '📚' },
 	{ id: '2', name: 'health', emoji: '💊' },
@@ -7,35 +11,19 @@ export const predefinedTags = [
 	{ id: '6', name: 'groceries', emoji: '🥦' },
 	{ id: '7', name: 'rent', emoji: '🏠' }
 ];
-export const getTodayYesterday = () => {
-	const todayStart = new Date();
-	todayStart.setHours(0, 0, 0, 0); // Set time to beginning of the day
-	const todayEnd = new Date();
-	todayEnd.setHours(23, 59, 59, 999); // Set time to end of the day
 
-	const yesterdayStart = new Date(todayStart);
-	yesterdayStart.setDate(todayStart.getDate() - 1); // Set date to yesterday
-	const yesterdayEnd = new Date(todayEnd);
-	yesterdayEnd.setDate(todayEnd.getDate() - 1); // Set date to yesterday
-
-	return { todayStart, todayEnd, yesterdayStart, yesterdayEnd };
+export const getCurrDate = () => {
+	return dayjs().format('dddd, MMM D');
 };
 
-interface Expense {
-	id: string;
-	amount: number;
-	tagName: string;
-	tagEmoji: string;
-	userId: string | null;
-	createdAt: Date;
-	updatedAt: Date;
-}
+const getTodayYesterday = () => {
+	const todayStart = dayjs().startOf('day');
+	const todayEnd = dayjs().endOf('day');
 
-const filterExpensesByDate = (expenses: Expense[], startDate: Date, endDate: Date): Expense[] => {
-	return expenses.filter((expense) => {
-		const expenseDate = new Date(expense.createdAt);
-		return expenseDate >= startDate && expenseDate <= endDate;
-	});
+	const yesterdayStart = todayStart.subtract(1, 'day');
+	const yesterdayEnd = todayEnd.subtract(1, 'day');
+
+	return { todayStart, todayEnd, yesterdayStart, yesterdayEnd };
 };
 
 const calculatePercentageIncrease = (todayTotal: number, yesterdayTotal: number): number => {
@@ -48,18 +36,34 @@ const calculatePercentageIncrease = (todayTotal: number, yesterdayTotal: number)
 	return ((todayTotal - yesterdayTotal) / yesterdayTotal) * 100;
 };
 
+interface Expense {
+	id: string;
+	amount: number;
+	tagName: string;
+	tagEmoji: string;
+	userId: string | null;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+const filterExpensesByDate = (
+	expenses: Expense[],
+	startDate: dayjs.Dayjs,
+	endDate: dayjs.Dayjs
+): Expense[] => {
+	return expenses.filter((expense) => {
+		const expenseDate = dayjs(expense.createdAt);
+		return expenseDate.isBetween(startDate, endDate, null, '[]');
+	});
+};
+
 const calculateTotalExpenses = (expenses: Expense[]): number => {
 	return expenses.reduce((total, expense) => total + expense.amount, 0);
 };
 
-export const getTodayData = (
-	userExpenses: Expense[],
-	todayStart: Date,
-	todayEnd: Date,
-	yesterdayStart: Date,
-	yesterdayEnd: Date
-) => {
+export const getTodayData = (userExpenses: Expense[]) => {
 	if (!userExpenses || userExpenses.length <= 0) return { percentage: 0, todayTotal: 0 };
+	const { todayStart, todayEnd, yesterdayStart, yesterdayEnd } = getTodayYesterday();
 	const todayExpenses = filterExpensesByDate(userExpenses || [], todayStart, todayEnd);
 	const yesterdayExpenses = filterExpensesByDate(userExpenses || [], yesterdayStart, yesterdayEnd);
 
@@ -69,4 +73,17 @@ export const getTodayData = (
 	const percentage = calculatePercentageIncrease(todayTotal, yesterdayTotal);
 
 	return { percentage, todayTotal };
+};
+
+export const generateExpenseArray = (currMonthDays: number, userExpenses: Expense[]) => {
+	return Array.from({ length: currMonthDays }, (_, index) => {
+		const currentDate = index + 1;
+		const filteredExpenses = userExpenses
+			? userExpenses.filter((expense) => {
+					return dayjs(expense.createdAt).date() === currentDate;
+				})
+			: [];
+		const totalExpense = calculateTotalExpenses(filteredExpenses);
+		return { date: currentDate, expense: totalExpense };
+	});
 };
