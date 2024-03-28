@@ -42,6 +42,7 @@
 				vs
 			</p>
 			<p class="col-start-2 row-start-3 flex justify-self-center">
+				<!-- refactor later -->
 				{data.userProfile.spendedToday.reduce((acc, curr) => acc + curr.amount, 0)}
 				<span class="self-start text-xl"> $ </span>
 			</p>

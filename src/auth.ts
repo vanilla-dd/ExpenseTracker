@@ -4,7 +4,7 @@ import { db } from '$lib/server/db';
 import { AUTH_SECRET, GITHUB_ID, GITHUB_SECRET } from '$env/static/private';
 import Credentials from '@auth/sveltekit/providers/credentials';
 import GitHub from '@auth/sveltekit/providers/github';
-import { getUserFromDb } from '$lib/server/helpers';
+import { getUserFromDb } from '$lib/server/dbHelpers';
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	adapter: PrismaAdapter(db),

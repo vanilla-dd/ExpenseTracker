@@ -9,7 +9,7 @@
 	import { type ExpenseCreateSchema, expenseCreateSchema, type TagCreateSchema } from '$lib/schema';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { predefinedTags } from '$lib/tags';
+	import { predefinedTags } from '$lib/helper';
 	import CreateTag from './CreateTag.svelte';
 	import { cn } from '$lib/utils.js';
 	import { toast } from 'svelte-sonner';
