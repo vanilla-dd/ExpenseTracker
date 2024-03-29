@@ -2,9 +2,13 @@
 	import dayjs from 'dayjs';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { mediaQuery } from 'svelte-legos';
 	import * as Card from '$lib/components/ui/card/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { mediaQuery } from 'svelte-legos';
+	import CreateExpense from '$lib/forms/CreateExpense.svelte';
+	import CreateBudget from '$lib/forms/CreateBudget.svelte';
+	import Chart from '$lib/chart/Chart.svelte';
 	import {
 		HandCoins,
 		Wallet,
@@ -15,11 +19,8 @@
 		Minus,
 		ReceiptText
 	} from 'lucide-svelte';
-	import CreateExpense from '$lib/forms/CreateExpense.svelte';
-	import CreateBudget from '$lib/forms/CreateBudget.svelte';
+	import { currencyFormat, generateExpenseArray, getCurrDate, getTodayData } from '$lib/helper.js';
 	import { cn } from '$lib/utils.js.js';
-	import { generateExpenseArray, getCurrDate, getTodayData } from '$lib/helper.js';
-	import Chart from '$lib/chart/Chart.svelte';
 
 	export let data;
 
@@ -118,7 +119,7 @@
 			<DollarSign class="h-4 w-4 text-muted-foreground" />
 		</Card.Header>
 		<Card.Content>
-			<div class="text-xl font-bold">$ {data.userBudget?.amount ?? 0}</div>
+			<div class="text-xl font-bold">{currencyFormat(data.userBudget?.amount ?? 0)}</div>
 			<p class="text-xs text-muted-foreground">
 				{data.userBudget?.amount ?? 0 > 0
 					? 'You can always edit your budget'
@@ -136,7 +137,9 @@
 		<Card.Content>
 			<div class="text-2xl font-bold">
 				<!-- refactor later -->
-				$ {data.userExpenses?.map((e) => e.amount).reduce((acc, cur) => acc + cur, 0)}
+				{currencyFormat(
+					data.userExpenses?.map((e) => e.amount).reduce((acc, cur) => acc + cur, 0) ?? 0
+				)}
 			</div>
 			<p class="text-xs text-muted-foreground">Expenses can't be revert</p>
 		</Card.Content>
@@ -148,7 +151,7 @@
 		</Card.Header>
 		<Card.Content>
 			<div class="text-2xl font-bold">
-				$ {todayTotal}
+				{currencyFormat(todayTotal)}
 			</div>
 			<p class="flex items-center gap-2 text-xs text-muted-foreground">
 				{#if percentage > 0}
@@ -156,12 +159,46 @@
 				{:else if percentage === 0}
 					~{percentage}% <Minus class="h-4 w-4" />
 				{:else}
-					-{percentage}% <TrendingDown class="h-4 w-4 text-green-500" />
-				{/if} Increased from yesterday
+					{percentage}% <TrendingDown class="h-4 w-4 text-green-500" />
+				{/if} from yesterday
 			</p>
 		</Card.Content>
 	</Card.Root>
 </div>
-{#key arr}
-	<Chart {arr} />
-{/key}
+<div class="flex flex-col justify-around lg:flex-row">
+	<div class="max-w-3xl flex-1">
+		{#key arr}
+			<Chart {arr} />
+		{/key}
+	</div>
+	<Card.Root>
+		<Card.Header class="border-b pb-3">
+			<Card.Title>Recent Expenses</Card.Title>
+			<Card.Description>You made {data.userExpenses?.length} expense this month.</Card.Description>
+		</Card.Header>
+		<ScrollArea class="h-72 w-96 pt-3">
+			<Card.Content>
+				<div>
+					{#each data.userExpenses ?? [] as expense}
+						<div class="flex items-center border-b py-2">
+							<div class="space-y-1">
+								<p class="text-sm font-medium capitalize leading-none">
+									{expense.tagEmoji}
+									{expense.tagName}
+								</p>
+								<p class="text-sm text-muted-foreground">
+									{expense.createdAt.toLocaleDateString('en-US', {
+										dateStyle: 'medium'
+									})}
+								</p>
+							</div>
+							<div class="ml-auto font-medium">
+								-{currencyFormat(expense.amount)}
+							</div>
+						</div>
+					{/each}
+				</div>
+			</Card.Content>
+		</ScrollArea>
+	</Card.Root>
+</div>

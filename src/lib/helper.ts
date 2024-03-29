@@ -87,3 +87,7 @@ export const generateExpenseArray = (currMonthDays: number, userExpenses: Expens
 		return { date: currentDate, expense: totalExpense };
 	});
 };
+
+export const currencyFormat = (amount: number) => {
+	return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+};
