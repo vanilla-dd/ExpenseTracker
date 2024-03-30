@@ -70,7 +70,7 @@ export const getTodayData = (userExpenses: Expense[]) => {
 	const todayTotal = calculateTotalExpenses(todayExpenses);
 	const yesterdayTotal = calculateTotalExpenses(yesterdayExpenses);
 
-	const percentage = calculatePercentageIncrease(todayTotal, yesterdayTotal);
+	const percentage = Number(calculatePercentageIncrease(todayTotal, yesterdayTotal).toFixed(2));
 
 	return { percentage, todayTotal };
 };
