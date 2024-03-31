@@ -6,9 +6,9 @@
 	import { toggleMode } from 'mode-watcher';
 </script>
 
-<main class="min-h-[100dvh] font-popins">
+<main class="font-popins">
 	<nav
-		class="sticky top-0 flex h-full w-full items-center justify-between border-b bg-white px-4 py-2 dark:bg-zinc-950"
+		class="fixed top-0 z-50 flex w-full items-center justify-between border-b bg-white px-4 py-2 dark:bg-zinc-950"
 	>
 		<div>
 			<a
@@ -44,7 +44,7 @@
 			</Button>
 		</div>
 	</nav>
-	<div class="h-[calc(100dvh-56.8px)]">
+	<div class="mt-14">
 		<slot />
 	</div>
 </main>

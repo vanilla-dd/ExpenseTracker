@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Chart } from 'chart.js/auto';
 	import { onMount } from 'svelte';
-
 	const colors = {
 		purple: {
 			default: 'rgba(149, 76, 233, 1)',
@@ -16,7 +15,7 @@
 	};
 
 	let canvas: HTMLCanvasElement;
-	export let arr: { date: number; expense: number }[];
+	export let expenseArr: { date: number; expense: number }[];
 
 	let chart: Chart;
 	onMount(() => {
@@ -30,21 +29,22 @@
 		chart = new Chart(ctx, {
 			type: 'line',
 			data: {
-				labels: arr.map((entry) => entry.date),
+				labels: expenseArr.map((entry) => entry.date),
 				datasets: [
 					{
 						label: 'Expense',
-						data: arr.map((entry) => entry.expense),
+						data: expenseArr.map((entry) => entry.expense),
 						fill: true,
 						backgroundColor: gradient,
 						pointBackgroundColor: colors.purple.default,
 						borderColor: colors.purple.default,
 						borderWidth: 2,
-						pointRadius: 3
+						pointRadius: 3,
+						tension: 0.4
 					}
 				],
 				// @ts-ignore
-				xLabels: arr.map((e) => `Mar ${e.date}`)
+				xLabels: expenseArr.map((e) => `Mar ${e.date}`)
 			},
 			options: {
 				plugins: {
@@ -52,9 +52,7 @@
 						display: false
 					}
 				},
-				layout: {
-					padding: 10
-				},
+				elements: { arc: {} },
 				responsive: true,
 				scales: { y: { beginAtZero: true } }
 			}

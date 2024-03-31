@@ -28,7 +28,7 @@
 	const currMonthDays = dayjs().daysInMonth();
 	const currDate = getCurrDate();
 	const isDesktop = mediaQuery('(min-width: 768px)');
-	$: arr = generateExpenseArray(currMonthDays, data.userExpenses ?? []);
+	$: expenseArr = generateExpenseArray(currMonthDays, data.userExpenses ?? []);
 	$: ({ percentage, todayTotal } = getTodayData(data.userExpenses ?? []));
 </script>
 
@@ -40,7 +40,7 @@
 					<Button
 						variant="outline"
 						builders={[builder]}
-						class="flex flex-1 items-center justify-center gap-2"
+						class="flex flex-1 items-center justify-center gap-2 lg:text-base"
 						>Add Expense <HandCoins class="h-5 w-5" /></Button
 					>
 				</Dialog.Trigger>
@@ -62,7 +62,7 @@
 					<Button
 						variant="outline"
 						builders={[builder]}
-						class="flex flex-1 items-center justify-center gap-2"
+						class="flex flex-1 items-center justify-center gap-2 lg:text-base"
 						>Add Expense <HandCoins class="h-5 w-5" /></Button
 					>
 				</Drawer.Trigger>
@@ -90,11 +90,11 @@
 				<Button
 					variant="outline"
 					builders={[builder]}
-					class="flex flex-1 items-center justify-center gap-2"
+					class="flex flex-1 items-center justify-center gap-2 lg:text-base"
 					>Edit Budget <Wallet class="h-5 w-5" /></Button
 				>
 			</Dialog.Trigger>
-			<Dialog.Content class="sm:max-w-[425px]">
+			<Dialog.Content class="sm:max-w-[425px] ">
 				<Dialog.Header>
 					<Dialog.Title>Budget</Dialog.Title>
 					<Dialog.Description>
@@ -165,14 +165,14 @@
 		</Card.Content>
 	</Card.Root>
 </div>
-<div class="grid grid-cols-7 justify-between gap-4 px-4 pt-4">
+<div class="grid grid-cols-7 items-start justify-between gap-4 px-4 pt-4">
 	<Card.Root class="col-span-full md:col-span-3 2xl:col-span-2">
 		<Card.Header class="border-b pb-3 shadow-md">
 			<Card.Title>Recent Expenses</Card.Title>
 			<Card.Description>You made {data.userExpenses?.length} expense this month.</Card.Description>
 		</Card.Header>
 		<ScrollArea>
-			<Card.Content class="h-72 pb-0 pt-1">
+			<Card.Content class="h-80 pb-0 pt-1">
 				{#if data.userExpenses && data.userExpenses.length > 0}
 					<div>
 						{#each data.userExpenses as expense}
@@ -204,15 +204,15 @@
 			</Card.Content>
 		</ScrollArea>
 	</Card.Root>
-	<Card.Root class="col-span-full md:col-span-4 2xl:col-span-5">
+	<Card.Root class="md:col-span- col-span-full lg:text-base 2xl:col-span-5">
 		<Card.Header class="border-b pb-3">
 			<Card.Title>Spending Count</Card.Title>
 			<Card.Description>You made expense this month.</Card.Description>
 		</Card.Header>
-		<Card.Content>
-			<div class="max-h-72">
-				{#key arr}
-					<Chart {arr} />
+		<Card.Content class="h-80 py-0">
+			<div class="aspect-video max-h-full max-w-full py-4">
+				{#key expenseArr}
+					<Chart {expenseArr} />
 				{/key}
 			</div>
 		</Card.Content>
