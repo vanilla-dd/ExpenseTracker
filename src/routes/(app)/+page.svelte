@@ -6,7 +6,9 @@
 <div
 	class="fixed inset-0 -z-50 w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
 ></div>
-<div class="flex h-full flex-col items-center justify-center gap-4">
+<div
+	class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4"
+>
 	<h1
 		class="text-8xl font-extrabold tracking-wider text-purple-800 transition-colors duration-500 hover:text-violet-800 dark:text-blue-300 hover:dark:text-blue-400"
 	>

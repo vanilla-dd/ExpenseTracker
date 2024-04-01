@@ -91,3 +91,9 @@ export const generateExpenseArray = (currMonthDays: number, userExpenses: Expens
 export const currencyFormat = (amount: number) => {
 	return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 };
+
+export const getPercentageRemaining = (usedAmount: number, totalAmount: number) => {
+	const usedPercentage = (usedAmount / totalAmount) * 100;
+	const remainingPercentage = 100 - usedPercentage;
+	return { usedPercentage, remainingPercentage, usedAmount, totalAmount };
+};

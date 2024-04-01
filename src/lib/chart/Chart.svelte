@@ -52,7 +52,6 @@
 						display: false
 					}
 				},
-				elements: { arc: {} },
 				responsive: true,
 				scales: { y: { beginAtZero: true } }
 			}

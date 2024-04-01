@@ -19,8 +19,15 @@
 		Minus,
 		ReceiptText
 	} from 'lucide-svelte';
-	import { currencyFormat, generateExpenseArray, getCurrDate, getTodayData } from '$lib/helper.js';
+	import {
+		currencyFormat,
+		generateExpenseArray,
+		getCurrDate,
+		getPercentageRemaining,
+		getTodayData
+	} from '$lib/helper.js';
 	import { cn } from '$lib/utils.js.js';
+	import DoughnutChart from '$lib/chart/DoughnutChart.svelte';
 
 	export let data;
 
@@ -30,9 +37,13 @@
 	const isDesktop = mediaQuery('(min-width: 768px)');
 	$: expenseArr = generateExpenseArray(currMonthDays, data.userExpenses ?? []);
 	$: ({ percentage, todayTotal } = getTodayData(data.userExpenses ?? []));
+	$: doughnutChartValues = getPercentageRemaining(
+		data.userExpenses?.map((e) => e.amount).reduce((acc, cur) => acc + cur, 0) ?? 0,
+		data.userBudget?.amount ?? 0
+	);
 </script>
 
-<div class="col-span-6 grid gap-4 px-4 pt-4 md:grid-cols-2 lg:grid-cols-4">
+<div class="col-span-6 grid gap-4 px-2 pt-4 sm:px-4 md:grid-cols-2 md:px-6 lg:grid-cols-4">
 	<div class="flex justify-around gap-3 md:flex-col">
 		{#if $isDesktop}
 			<Dialog.Root bind:open>
@@ -165,14 +176,14 @@
 		</Card.Content>
 	</Card.Root>
 </div>
-<div class="grid grid-cols-7 items-start justify-between gap-4 px-4 pt-4">
-	<Card.Root class="col-span-full md:col-span-3 2xl:col-span-2">
+<div class="flex flex-wrap gap-4 px-2 pr-2 pt-4 sm:px-4 md:px-6">
+	<Card.Root class="w-full min-w-72 flex-1">
 		<Card.Header class="border-b pb-3 shadow-md">
 			<Card.Title>Recent Expenses</Card.Title>
 			<Card.Description>You made {data.userExpenses?.length} expense this month.</Card.Description>
 		</Card.Header>
 		<ScrollArea>
-			<Card.Content class="h-80 pb-0 pt-1">
+			<Card.Content class="h-80 flex-shrink-0 pb-0 pt-1">
 				{#if data.userExpenses && data.userExpenses.length > 0}
 					<div>
 						{#each data.userExpenses as expense}
@@ -204,13 +215,29 @@
 			</Card.Content>
 		</ScrollArea>
 	</Card.Root>
-	<Card.Root class="md:col-span- col-span-full lg:text-base 2xl:col-span-5">
+	<Card.Root class="w-full flex-1 lg:text-base">
 		<Card.Header class="border-b pb-3">
 			<Card.Title>Spending Count</Card.Title>
 			<Card.Description>You made expense this month.</Card.Description>
 		</Card.Header>
-		<Card.Content class="h-80 py-0">
-			<div class="aspect-video max-h-full max-w-full py-4">
+		<Card.Content class="flex flex-col items-center justify-center py-0 ">
+			<div class="flex w-72 items-center justify-center py-4">
+				{#key doughnutChartValues}
+					<DoughnutChart
+						remainingPercentage={doughnutChartValues.remainingPercentage || 0}
+						usedPercentage={doughnutChartValues.usedPercentage || 0}
+					/>
+				{/key}
+			</div>
+		</Card.Content>
+	</Card.Root>
+	<Card.Root class="w-full">
+		<Card.Header class="border-b pb-3">
+			<Card.Title>Spending Count</Card.Title>
+			<Card.Description>You made expense this month.</Card.Description>
+		</Card.Header>
+		<Card.Content class="py-0">
+			<div class="h-full w-full py-4">
 				{#key expenseArr}
 					<Chart {expenseArr} />
 				{/key}
