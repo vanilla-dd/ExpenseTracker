@@ -31,8 +31,12 @@
 						display: true
 					},
 					datalabels: {
+						backgroundColor: 'black',
+						color: 'white',
+						padding: { left: 8, right: 8 },
 						formatter(value, context) {
-							return value + '%';
+							const fixedValue = value.toFixed(2);
+							return fixedValue + '%';
 						}
 					},
 					title: {

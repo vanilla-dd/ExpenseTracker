@@ -10,18 +10,20 @@
 	class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4"
 >
 	<h1
-		class="text-8xl font-extrabold tracking-wider text-purple-800 transition-colors duration-500 hover:text-violet-800 dark:text-blue-300 hover:dark:text-blue-400"
+		class="text-5xl font-extrabold tracking-wider text-purple-800 transition-colors duration-500 hover:text-violet-800 dark:text-blue-300 hover:dark:text-blue-400 sm:text-6xl md:text-7xl lg:text-8xl"
 	>
 		Expensify
 	</h1>
-	<p class="font-medium tracking-wider">All your expenses at one place</p>
+	<p class="text-xs font-medium tracking-wider sm:text-sm md:text-base lg:text-lg">
+		All your expenses at one place
+	</p>
 	<div
 		class="animate-background rounded-sm bg-gradient-to-r from-white to-slate-800 bg-[length:_400%_400%] p-0.5"
 	>
 		<SignIn provider="github">
 			<Button
 				slot="submitButton"
-				class="rounded-none px-8 py-6 text-base font-bold "
+				class="rounded-none px-4 py-3 text-xs font-bold sm:px-5 sm:py-4 sm:text-sm md:text-base lg:text-lg "
 				variant="outline">Try it now</Button
 			>
 		</SignIn>
