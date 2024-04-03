@@ -52,6 +52,7 @@
 						display: false
 					}
 				},
+				layout: { autoPadding: true },
 				responsive: true,
 				scales: { y: { beginAtZero: true } }
 			}

@@ -10,7 +10,7 @@
 
 <main class="font-popins">
 	<nav
-		class="fixed top-0 z-50 flex w-full items-center justify-between border-b bg-white px-4 py-2 dark:bg-zinc-950"
+		class="sticky top-0 z-50 flex w-full items-center justify-between border-b bg-white px-4 py-2 dark:bg-zinc-950 lg:px-6"
 	>
 		<div>
 			<a
@@ -32,25 +32,21 @@
 							/></Button
 						>
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="flex w-40 flex-col gap-2" side="right">
+					<DropdownMenu.Content class="flex w-48 flex-col gap-2" side="right">
 						<DropdownMenu.Label class="-mb-2">Profile</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item asChild>
-							<Button href="/settings" class="flex items-center justify-start gap-2 ">
-								<Settings />
-								Setting</Button
-							>
+						<DropdownMenu.Item href="/settings" class="flex gap-2 border p-2">
+							<Settings />
+							Setting
 						</DropdownMenu.Item>
-						<DropdownMenu.Item asChild>
-							<Button
-								on:click={() => {
-									signOut({ redirect: true, callbackUrl: '/signin' });
-								}}
-								class="flex items-center justify-start gap-2"
-							>
-								<LogOut />
-								Sign Out</Button
-							>
+						<DropdownMenu.Item
+							on:click={() => {
+								signOut({ redirect: true, callbackUrl: '/signin' });
+							}}
+							class="flex gap-2 border p-2"
+						>
+							<LogOut />
+							Sign Out
 						</DropdownMenu.Item>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
@@ -68,7 +64,7 @@
 			</Button>
 		</div>
 	</nav>
-	<div class="mt-14">
+	<div>
 		<slot />
 	</div>
 </main>
