@@ -1,6 +1,6 @@
 import { tagCreateSchema, expenseCreateSchema, budgetCreate } from '$lib/schema';
 import { setError, superValidate } from 'sveltekit-superforms';
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { PageServerLoad } from './$types';
@@ -8,7 +8,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await locals.auth();
 	// Throw redireect
-	if (!user?.user) console.log('hi');
+	if (!user?.user) throw redirect(303, '/');
 	const currentDate = new Date();
 
 	const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);

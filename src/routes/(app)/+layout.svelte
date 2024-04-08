@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { SignIn, SignOut } from '@auth/sveltekit/components';
 	import { Button } from '$lib/components/ui/button';
 	import { LogOut, Moon, Settings, Sun } from 'lucide-svelte';
 	import { page } from '$app/stores';
