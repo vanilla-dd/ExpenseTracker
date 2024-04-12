@@ -31,20 +31,23 @@
 							/></Button
 						>
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="flex w-48 flex-col gap-2" side="right">
+					<DropdownMenu.Content class="flex w-28 flex-col gap-2 lg:w-48" side="right">
 						<DropdownMenu.Label class="-mb-2">Profile</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item href="/settings" class="flex gap-2 border p-2">
-							<Settings />
+						<DropdownMenu.Item
+							href="/settings"
+							class="flex gap-2 border p-2 text-xs md:text-sm lg:text-base"
+						>
+							<Settings class="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6" />
 							Setting
 						</DropdownMenu.Item>
 						<DropdownMenu.Item
 							on:click={() => {
 								signOut({ redirect: true, callbackUrl: '/signin' });
 							}}
-							class="flex gap-2 border p-2"
+							class="flex gap-2 border p-2 text-xs md:text-sm lg:text-base"
 						>
-							<LogOut />
+							<LogOut class="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6" />
 							Sign Out
 						</DropdownMenu.Item>
 					</DropdownMenu.Content>
