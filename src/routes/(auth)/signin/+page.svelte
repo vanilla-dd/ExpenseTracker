@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Separator } from '$lib/components/ui/separator';
-	import { SignIn, SignOut } from '@auth/sveltekit/components';
+	import { SignIn } from '@auth/sveltekit/components';
 	import { Github } from 'lucide-svelte';
 	let email = 'test-123@gmail.com';
 	let password = 'idkwhateverthefuck';

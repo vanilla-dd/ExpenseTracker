@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils.js';
-	import { Pencil } from 'lucide-svelte';
 	export let data;
 </script>
 
